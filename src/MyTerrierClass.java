@@ -70,21 +70,31 @@ public class MyTerrierClass {
         indexer.index(new Collection[]{sf});
         
         print("sf list size after indexing:"+sf.getFileList().size());
+        sf.reset();
+        //get document reader
+        Reader reader = sf.next().getReader();
+        //print all tokens
+        Tokeniser tokeniser = Tokeniser.getTokeniser();
+        TokenStream ts = tokeniser.tokenise(reader);
+        while(ts.hasNext())
+        {
+          System.out.println(ts.next());
+        }
         
-        Index index = Index.createIndex();
-        
-        Manager queryingManager = new Manager(index);
- 
-        String query = "name quick";
-        SearchRequest srq = queryingManager.newSearchRequest("queryID0", query);
-        srq.addMatchingModel("Matching", "PL2");
-        queryingManager.runPreProcessing(srq);
-        queryingManager.runMatching(srq);
-        queryingManager.runPostProcessing(srq);
-        queryingManager.runPostFilters(srq);
-        ResultSet rs = srq.getResultSet();
-        for(int each : rs.getDocids())
-            System.out.println("docids: "+ each);
+//        Index index = Index.createIndex();
+//        
+//        Manager queryingManager = new Manager(index);
+// 
+//        String query = "name quick";
+//        SearchRequest srq = queryingManager.newSearchRequest("queryID0", query);
+//        srq.addMatchingModel("Matching", "PL2");
+//        queryingManager.runPreProcessing(srq);
+//        queryingManager.runMatching(srq);
+//        queryingManager.runPostProcessing(srq);
+//        queryingManager.runPostFilters(srq);
+//        ResultSet rs = srq.getResultSet();
+//        for(int each : rs.getDocids())
+//            System.out.println("docids: "+ each);
         
 //        Index index = Index.createIndex();
 //        Lexicon<String> lex = index.getLexicon();
